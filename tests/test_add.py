@@ -1,15 +1,16 @@
 import allure
 
-from models.user import User
 
-
-@allure.story("Positive test creating user with add method")
-class TestAddPositive:
+@allure.story("Позитивные тесты создания пользователя")
+class TestAddBusinessLogic:
     @allure.story("Успешное добавление не существующего пользователя")
     def test_success_creation_user(self):
-        # создать юзера
+        # сгенерировать пользователя
         # проверить, что такого пользователя ещё нет в приложении
-        user = User(name="Robert", surname="Poulsen", phone="+71111111111", age=41)
+        # создать пользоватлея
+        # проверить ответ
+        # проверить, что созданный пользователь создаётся селектом
+
         request_id = ""
         # some_magic
         response = dict #here will be response
@@ -18,9 +19,32 @@ class TestAddPositive:
         assert response["status"] == "success"
         # assert select_creater_user here should be check with select was user created or not
 
-
-@allure.story("Negative tests not creating user with add method")
-class TestAddNegative:
     @allure.story("Нельзя повторно добавить существующего юзера")
     def test_cannot_create_existed_user(self):
+        # сгенерировать пользователя
+        # проверить, что такого пользователя ещё нет в приложении
+        # создать пользоватлея
+        # проверить ответ
+        # проверить, что созданный пользователь создаётся селектом по телефону
+        # проверить, что пользователь сейчас один по имени
+        # попытаться повторно создать польователя
+        # проверить ответ
+        # проверить селектом по имени, что второй запрос не создал пользовател
+        pass
+
+@allure.story("Негативные тесты проверящюие, что пользоваль не создаётся")
+class TestAddValidationFields:
+    @allure.story("Провалидировать обязательные поля. Попытка добавить пользователя без одного из полей")
+    def test_validate_required_fields(self):
+        # Параметры - возраст отрицательный, незаполнено одно из полей
+        # сгенерировать пользователя
+        # в зависимости от переданного параметра убирать одно из обязательных полей
+        # проверить, что такого пользователя ещё нет в приложении
+        # попытаться добавит пользователя без обязательного поля
+        # проверить ответ
+        # проверить селектом по имени, что второй запрос не создал пользовател
+        pass
+
+    @allure.story("Валидация значений вводимых в поля")
+    def test_validation_values(self):
         pass

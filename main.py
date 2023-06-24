@@ -1,7 +1,9 @@
-import websockets
 import asyncio
 import json
 import sys
+
+import websockets
+
 
 async def do_smth():
     uri = "ws://127.0.0.1:4000"
