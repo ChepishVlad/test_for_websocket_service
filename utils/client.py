@@ -1,8 +1,16 @@
 import json
+import logging
 import uuid
 
 import allure
 
+logger = logging.getLogger('handlers')
+logger.setLevel(logging.DEBUG)
+ch = logging.StreamHandler()
+ch.setLevel(logging.DEBUG)
+formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+ch.setFormatter(formatter)
+logger.addHandler(ch)
 
 class Client:
     def __init__(self, ws):
@@ -29,8 +37,8 @@ class Client:
         return self.send_request(data=data)
 
     def send_request(self, data: dict):
-        print(f"Send request: {data}")
+        logging.debug(f"Message: {data} was sent")
         self.ws.send(json.dumps(data))
         response = json.loads(self.ws.recv())
-        print(f"Response is: {response}")
+        logger.debug(f"Message: {data} was received")
         return response
