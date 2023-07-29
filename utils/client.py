@@ -1,7 +1,18 @@
 import json
+import logging
 import uuid
 
 import allure
+
+from utils.checkers import validate_request
+
+logger = logging.getLogger("handlers")
+logger.setLevel(logging.DEBUG)
+ch = logging.StreamHandler()
+ch.setLevel(logging.DEBUG)
+formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
+ch.setFormatter(formatter)
+logger.addHandler(ch)
 
 
 class Client:
@@ -9,9 +20,9 @@ class Client:
         self.ws = ws
 
     @allure.step("Отправка запроса на добавление пользоваля")
-    def add_user(self, body: dict, _id: str = None):
+    def add_user(self, body: dict, _id: str = None, exp_status: str = None):
         data = dict(method="add", id=_id or str(uuid.uuid4()), **body)
-        return self.send_request(data=data)
+        return self.send_request(data=data, exp_status=exp_status)
 
     @allure.step("Отправка запроса на получение пользователей")
     def select_users(self, body: dict, _id: str = None):
@@ -28,9 +39,10 @@ class Client:
         data = dict(method="update", id=_id or str(uuid.uuid4()), **body)
         return self.send_request(data=data)
 
-    def send_request(self, data: dict):
-        print(f"Send request: {data}")
+    @validate_request
+    def send_request(self, data: dict, **kwargs):
+        logger.debug(f"Message: {data} was sent")
         self.ws.send(json.dumps(data))
         response = json.loads(self.ws.recv())
-        print(f"Response is: {response}")
+        logger.debug(f"Message: {data} was received")
         return response
