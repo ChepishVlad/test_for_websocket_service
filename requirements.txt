@@ -2,3 +2,4 @@ websockets==11.0.3
 pytest==7.3.2
 allure-pytest==2.13.2
 Faker==18.11.1
+black==23.3.0
